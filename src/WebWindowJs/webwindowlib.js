@@ -118,6 +118,10 @@ class WebWindowLib {
         return this.create('machinename', resolve, reject);
     }
 
+    openDirectory(resolve, reject) {
+        return this.create('opendirectory', resolve, reject);
+    }
+
     create(cmd, resolve, reject) {
         try {
             // TODO: Add unique identifier for all messages instead of command, 

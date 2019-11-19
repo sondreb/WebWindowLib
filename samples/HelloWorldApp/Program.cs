@@ -13,6 +13,7 @@ namespace HelloWorldApp
             window.EnableNativeApi();
 
             window.NavigateToLocalFile("wwwroot/index.html");
+
             window.WaitForExit();
         }
     }

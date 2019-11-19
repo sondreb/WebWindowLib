@@ -33,9 +33,12 @@
         console.warn('Warning...');
     }
     catch (error) {
-        debugger;
         webWindowLib.log('ERROR: ' + error);
     }
+}
+
+function openDirectory() {
+    webWindowLib.openDirectory((data) => { });
 }
 
 document.addEventListener('DOMContentLoaded', function(event) {

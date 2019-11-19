@@ -29,6 +29,7 @@ namespace WebWindowLib
             AddFeature(new EnvironmentVariablesFeature());
             AddFeature(new OSVersionFeature());
             AddFeature(new MachineNameFeature());
+            AddFeature(new OpenDirectoryFeature());
         }
 
         private void AddFeature(IWebWindowFeature feature)
