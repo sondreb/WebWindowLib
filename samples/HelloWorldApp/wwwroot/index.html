@@ -1,0 +1,35 @@
+<html>
+<body>
+    <h1>WebWindowLib - Hello World Example</h1>
+
+    <p>
+        This is a .NET Core application. It is displaying a native OS window that contains
+        whatever webview technology is present in your OS:
+
+        <ul>
+            <li>When running on Windows, it uses webview2 (backed by the new Chromium-based Edge)</li>
+            <li>When running on Mac, it uses WKWebView (backed by Safari)</li>
+            <li>When running on Linux, it uses WebKitGTK+2 (backed by WebKit)</li>
+        </ul>
+
+        <h2>Native API results</h2>
+
+        <button onclick="getNativeApiResults();">Call native APIs (refresh)</button>
+
+        <ul>
+            <li>IP Address: <span id="ipaddress"></span></li>
+            <li>Machine Name: <span id="machinename"></span></li>
+            <li>OS Version: <span id="osversion"></span></li>
+            <li>Environment Variables: <span id="environmentvariables"></span></li>
+        </ul>
+
+        <h2>Log</h2>
+        <div id="log"></div>
+
+        <h2>Errors</h2>
+        <div id="error"></div>
+    </p>
+    <script src="webwindowlib.js"></script>
+    <script src="sample.js"></script>
+</body>
+</html>
