@@ -44,6 +44,7 @@ Call any of the available functions on the webWindowLib (available globally):
 - OS Version
 - Environment Variables
 - IP Address (static localhost IP)
+- Open File Browser (Windows only, need refactoring)
 
 ## Planned Features
 
