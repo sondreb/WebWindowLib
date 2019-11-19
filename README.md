@@ -8,6 +8,10 @@ This library gives you access to native APIs from your web apps hosted on the We
 
 It is a .NET Core library built in C# with a JavaScript library that handles messages between the webview and .NET code.
 
+## Hello World Example
+
+![WebWindowLib Hello World Sample Screenshot](samples/screenshot.png)
+
 ## How to use
 
 Add a reference to "WebWindowLib", not available on NuGet yet, copy the code into your own project.
