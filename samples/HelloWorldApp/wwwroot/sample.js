@@ -3,14 +3,6 @@
     try {
         webWindowLib.log('getNativeApiResults was called in browser.');
 
-        webWindowLib.registerLogHandler((message) => {
-            document.getElementById('log').innerHTML += message + '<br>';
-        });
-
-        webWindowLib.registerErrorHandler((message) => {
-            document.getElementById('error').innerHTML += message + '<br>';
-        });
-
         webWindowLib.getIpAddress((data) => {
             document.getElementById('ipaddress').innerText = data;
         }, (error) => {
@@ -34,13 +26,23 @@
         }, (error) => {
             console.error(error);
         });
+
+        console.info('Infoing...');
+        console.error('Erroring...');
+        console.log('Logging...');
+        console.warn('Warning...');
     }
     catch (error) {
+        debugger;
         webWindowLib.log('ERROR: ' + error);
     }
 }
 
-(function () {
+document.addEventListener('DOMContentLoaded', function(event) {
     webWindowLib.log('Running API results on startup...');
     getNativeApiResults();
-})();
+});
+
+//(function () {
+    
+//})();

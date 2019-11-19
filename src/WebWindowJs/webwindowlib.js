@@ -15,71 +15,79 @@ class WebWindowLib {
     sendMessage = null;
 
     constructor(isNative) {
-        var lib = this;
 
-        // Make it possible to debug and test in regular browser.
-        if (isNative) {
-            lib.receiveMessage = window.external.receiveMessage;
-            lib.sendMessage = window.external.sendMessage;
-        }
-        else {
-            lib.receiveMessage = function (callback) {
-                //dev/null
-                console.log(callback);
+        try {
+
+            var lib = this;
+
+            var onReceiveMessage = function(messageJson) {
+                var message = JSON.parse(messageJson);
+
+                // Log message received from .NET, show in 
+                if (message.command === 'log') {
+                    console.log(message.argument);
+
+                    if (lib.logcallback) {
+                        lib.logcallback(message.argument);
+                    }
+
+                    return;
+                }
+
+                if (message.command === 'error') {
+                    console.error(message.argument);
+
+                    if (lib.errorcallback) {
+                        lib.errorcallback(message.argument);
+                    }
+
+                    return;
+                }
+
+                var promise = lib.promises[message.command];
+
+                if (!promise) {
+                    lib.log('Received command with no listener.');
+                    return;
+                }
+
+                try {
+                    promise.resolve(message.argument);
+                }
+                catch (error) {
+                    lib.log('ERROR: ' + error);
+
+                    if (promise.reject) {
+                        promise.reject(error);
+                    }
+                }
+
+                delete lib.promises[message.command];
             };
 
-            lib.sendMessage = function (callback) {
-                //dev/null
-                console.log(callback);
-            };
+            // Make it possible to debug and test in regular browser.
+            if (isNative) {
+                lib.receiveMessage = window.external.receiveMessage;
+                lib.sendMessage = window.external.sendMessage;
+
+                lib.receiveMessage(onReceiveMessage);
+
+                //lib.receiveMessage(function() { lib.onReceiveMessage(); });
+            }
+            else {
+                lib.receiveMessage = onReceiveMessage;
+                lib.sendMessage = function(message) {
+                    //dev/null
+                    console.log(message);
+                };
+            }
+
+            lib.send({ command: 'ready' });
+        }
+        catch (error) {
+            alert(error);
         }
 
-        lib.receiveMessage(function (messageJson) {
-            var message = JSON.parse(messageJson);
-
-            // Log message received from .NET, show in 
-            if (message.command === 'log') {
-                console.log(message.argument);
-
-                if (lib.logcallback) {
-                    lib.logcallback(message.argument);
-                }
-
-                return;
-            }
-
-            if (message.command === 'error') {
-                console.error(message.argument);
-
-                if (lib.errorcallback) {
-                    lib.errorcallback(message.argument);
-                }
-
-                return;
-            }
-
-            var promise = lib.promises[message.command];
-
-            if (!promise) {
-                lib.log('Received command with no listener.');
-                return;
-            }
-
-            try {
-                promise.resolve(message.argument);
-            }
-            catch (error) {
-                lib.log('ERROR: ' + error);
-
-                if (promise.reject) {
-                    promise.reject(error);
-                }
-            }
-
-            delete lib.promises[message.command];
-        });
-
-        lib.send({ command: 'ready' });
     }
 
     registerLogHandler(logcallback) {
@@ -128,7 +136,13 @@ class WebWindowLib {
     }
 
     send(message) {
-        this.sendMessage(JSON.stringify(message));
+        var msg = JSON.stringify(message);
+
+        if (this.logcallback) {
+            this.logcallback(msg);
+        }
+
+        this.sendMessage(msg);
     }
 }
 
