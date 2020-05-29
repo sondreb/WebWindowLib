@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="WebWindow" Version="0.1.0-20191119.2" />
+    <PackageReference Include="WebWindow" Version="0.1.0-20200214.10" />
   </ItemGroup>
 
 </Project>
